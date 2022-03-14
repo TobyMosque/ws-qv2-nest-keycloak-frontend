@@ -50,10 +50,5 @@ export default defineComponent({
       width: 100%;
     }
   }
-  @media (max-width: $breakpoint-sm-max) {
-    .page-container {
-      width: 100% !important;
-    }
-  }
 }
 </style>
