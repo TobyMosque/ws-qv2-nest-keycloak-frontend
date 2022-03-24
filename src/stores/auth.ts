@@ -21,8 +21,8 @@ const useAuthStore = defineStore(authStoreName, {
       return this.expireAt > now;
     },
     async sendTokens() {
-      await this.$api.post('/refresh', {
-        token: this.$oidc.refreshToken,
+      await this.$authApi.authControllerRefresh({
+        token: this.$oidc.refreshToken || '',
       });
     },
   },

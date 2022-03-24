@@ -1,7 +1,6 @@
 import { defineStore, Pinia, storeToRefs } from 'pinia';
-import useAuthStore from 'src/stores/auth';
 import useAppStore from 'src/stores/app';
-import { error, log } from 'src/utils/console';
+import { error } from 'src/utils/console';
 import { watch } from 'vue';
 
 interface EssentiaLink {
@@ -23,7 +22,7 @@ const useMainLayoutStore = defineStore(mainLayoutStoreName, {
     },
     async logout() {
       try {
-        await this.$api.delete('/logout');
+        await this.$authApi.authControllerLogout();
       } catch (err) {
         error(err);
       }
@@ -32,7 +31,6 @@ const useMainLayoutStore = defineStore(mainLayoutStoreName, {
     oidcUrls(locale: string) {
       const route = this.$router.resolve('/auth');
       this.logoutUrl = this.$oidc.createLogoutUrl({
-        locale,
         redirectUri: new URL(route.href, window.location.origin).href
       });
     },

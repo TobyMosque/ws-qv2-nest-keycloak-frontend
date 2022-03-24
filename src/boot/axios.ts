@@ -1,18 +1,24 @@
 import { boot } from 'quasar/wrappers';
-import axios, { AxiosInstance, AxiosRequestConfig } from 'axios';
+import axios, { AxiosRequestConfig } from 'axios';
 import { InjectionKey } from 'vue';
 import useAuthStore from 'src/stores/auth';
+import { AuthApi, JobApi, CompanyApi, PersonApi } from 'api';
 
-export const apiKey: InjectionKey<AxiosInstance> = Symbol('api-key');
+export const authApiKey: InjectionKey<AuthApi> = Symbol('auth-api-key');
+export const jobApiKey: InjectionKey<JobApi> = Symbol('job-api-key');
+export const companyApiKey: InjectionKey<CompanyApi> = Symbol('company-api-key');
+export const personApiKey: InjectionKey<PersonApi> = Symbol('person-api-key');
+
 declare module 'pinia' {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars, no-unused-vars
   interface PiniaCustomProperties {
-    $api: AxiosInstance;
+    $authApi: AuthApi;
   }
 }
 
 export default boot(({ app, store }) => {
-  const api = axios.create({ baseURL: '/api' });
+  const baseURL = '/api';
+  const api = axios.create({ baseURL });
 
   api.interceptors.request.use(
     function (config: AxiosRequestConfig) {
@@ -29,8 +35,22 @@ export default boot(({ app, store }) => {
       return Promise.reject(error);
     }
   );
-  app.provide(apiKey, api);
+
+
+  const authApi = new AuthApi(undefined, baseURL, api);
+  const jobApi = new JobApi(undefined, baseURL, api);
+  const companyApi = new CompanyApi(undefined, baseURL, api);
+  const personApi = new PersonApi(undefined, baseURL, api);
+  
+  app.provide(authApiKey, authApi);
+  app.provide(jobApiKey, jobApi);
+  app.provide(companyApiKey, companyApi);
+  app.provide(personApiKey, personApi);
+
   store.use(() => ({
-    $api: api,
+    $authApi: authApi,
+    $jobApi: jobApi,
+    $companyApi: companyApi,
+    $personApi: personApi,
   }));
 });
