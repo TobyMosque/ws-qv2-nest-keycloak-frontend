@@ -1,27 +1,27 @@
-export function log (...args: unknown[]) {
+export function log(...args: unknown[]) {
   if (process.env.DEV) {
-    console.log.apply(console.log, args)
+    console.log.apply(console.log, args);
   }
 }
 
-export function info (...args: unknown[]) {
+export function info(...args: unknown[]) {
   if (process.env.DEV) {
-    console.info.apply(console.info, args)
+    console.info.apply(console.info, args);
   }
 }
 
-export function warn (...args: unknown[]) {
+export function warn(...args: unknown[]) {
   if (process.env.DEV) {
-    console.warn.apply(console.warn, args)
+    console.warn.apply(console.warn, args);
   }
 }
 
-export function error (...args: unknown[]) {
+export function error(...args: unknown[]) {
   if (process.env.DEV) {
-    console.error.apply(console.error, args)
+    console.error.apply(console.error, args);
   }
 }
 
-export function discard (...args: unknown[]) {
+export function discard(...args: unknown[]) {
   return args;
 }

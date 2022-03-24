@@ -1,5 +1,5 @@
 {
-  "name": "frontend-vite",
+  "name": "frontend",
   "version": "0.0.1",
   "description": "A Quasar Project",
   "productName": "Quasar App",
@@ -9,18 +9,15 @@
     "lint": "eslint --ext .js,.ts,.vue ./",
     "dev": "quasar dev -m ssr",
     "build": "quasar build -m ssr",
-    "dev:spa": "quasar dev -m spa",
-    "build:spa": "quasar build -m spa",
-    "prettier": "prettier .",
+    "prettier": "prettier . --write",
     "format": "prettier --write \"**/*.{js,ts,vue,scss,html,md,json}\" --ignore-path .gitignore",
     "test": "echo \"No test specified\" && exit 0"
   },
   "dependencies": {
-    "@quasar/extras": "^1.0.0",
+    "@quasar/extras": "^1.13.3",
     "axios": "^0.21.1",
     "backend": "0.0.1",
-    "jwt-decode": "^3.1.2",
-    "keycloak-js": "16.1.1",
+    "keycloak-js": "^16.1.1",
     "pinia": "^2.0.11",
     "quasar": "^2.6.0",
     "vue": "^3.0.0",
@@ -44,8 +41,11 @@
     "typescript": "^4.5.4"
   },
   "engines": {
-    "node": ">= 12.22.1",
+    "node": "^18 || ^16 || ^14.19",
     "npm": ">= 6.13.4",
     "yarn": ">= 1.21.1"
+  },
+  "imports": {
+    "src/*": "src/*"
   }
 }

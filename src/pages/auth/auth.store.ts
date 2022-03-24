@@ -1,21 +1,34 @@
 import { defineStore } from 'pinia';
+import useAppStore from 'src/stores/app';
+import { watch } from 'vue';
 
 export const loginPageStoreName = 'loginPage';
 const useLoginPageStore = defineStore(loginPageStoreName, {
   state: () => ({
-    loginUrl: '',
-    registerUrl: ''
+    loginUrl: '#',
+    registerUrl: '#',
   }),
   actions: {
-    initialize (locale: string) {
+    oidcUrls(locale: string) {
       this.loginUrl = this.$oidc.createLoginUrl({
-        locale
+        locale,
       });
       this.registerUrl = this.$oidc.createRegisterUrl({
-        locale
+        locale,
+      });
+    },
+    initialize () {
+      const appStore = useAppStore();
+      watch(
+        () => appStore.locale,
+        () => {
+          this.oidcUrls(appStore.locale);
+        });
+      requestAnimationFrame(() => {
+        this.oidcUrls(appStore.locale);
       });
     }
-  }
+  },
 });
 
 export type LoginPageStore = ReturnType<typeof useLoginPageStore>;

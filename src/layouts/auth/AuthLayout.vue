@@ -3,9 +3,15 @@
     <q-page-container>
       <q-page class="row">
         <div class="col flex flex-center relative-position layout-auth">
-          <img alt="Quasar logo" class="absolute-center" :src="`images/quasar-logo-${dark ? 'dark' : 'light'}.svg`">
+          <img
+            alt="Quasar logo"
+            class="absolute-center"
+            :src="`images/quasar-logo-${dark ? 'dark' : 'light'}.svg`"
+          />
         </div>
-        <div class="col col-auto shadow-up-2 page-container relative-position bg-content">
+        <div
+          class="col col-auto shadow-up-2 page-container relative-position bg-content"
+        >
           <div class="page-form q-pa-xl absolute-center">
             <router-view />
           </div>
@@ -25,9 +31,11 @@ import useAuthLayoutStore from './auth.store';
 export default defineComponent({
   name: 'AuthLayout',
   components: {
-    LocaleSwitch: defineAsyncComponent(() => import('components/locale/LocaleSwitch.vue'))
+    LocaleSwitch: defineAsyncComponent(
+      () => import('components/locale/LocaleSwitch.vue')
+    ),
   },
-  setup () {
+  setup() {
     const store = useAuthLayoutStore();
     const state = storeToRefs(store);
 
@@ -36,9 +44,9 @@ export default defineComponent({
 
     return {
       ...state,
-      dark: appState.dark
-    }
-  }
+      dark: appState.dark,
+    };
+  },
 });
 </script>
 
@@ -48,6 +56,11 @@ export default defineComponent({
     width: 540px !important;
     .page-form {
       width: 100%;
+    }
+  }
+  @media (max-width: $breakpoint-sm-max) {
+    .page-container {
+      width: 100% !important;
     }
   }
 }

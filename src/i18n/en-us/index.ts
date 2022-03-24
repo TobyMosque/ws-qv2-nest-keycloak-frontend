@@ -16,7 +16,7 @@ export default {
     compare: '{field} and {other} do not match',
     email: 'The {field} field is not a valid e-mail address',
     required: 'The {field} field is required',
-    strength: 'Password is too weak, please improve your strength'
+    strength: 'Password is too weak, please improve your strength',
   },
   fields: {
     confirmPassword: 'Confirm your Password',
@@ -24,7 +24,7 @@ export default {
     firstName: 'First Name',
     lastName: 'Last Name',
     password: 'Password',
-    username: 'Email'
+    username: 'Email',
   },
   actions: {
     forget: 'Recovery password',
@@ -33,27 +33,29 @@ export default {
     login: 'Login',
     logout: 'Logout',
     register: 'Register',
-    devboard: 'Developer Board'
+    devboard: 'Developer Board',
   },
   login: {
-    title: 'Login into the System'
+    title: 'Login into the System',
   },
   http: {
     generic: 'Something not right happened',
-    badRequest: 'We aren\'t able of to do your request, please review all the fields',
-    unauthorized: 'You aren\'t authorized, please login',
-    forbidden: 'You aren\'t allowed to do that action',
+    badRequest:
+      "We aren't able of to do your request, please review all the fields",
+    unauthorized: "You aren't authorized, please login",
+    forbidden: "You aren't allowed to do that action",
     unprocessable: '@:http.badRequest',
     serverError: 'An unexpected error occurred at the API',
-    serviceUnavailable: 'An error occurred at the API, mostly because a third party service'
+    serviceUnavailable:
+      'An error occurred at the API, mostly because a third party service',
   },
   locale: {
     title: 'Idiom',
     ptbr: 'Portuguese',
-    enus: 'English'
+    enus: 'English',
   },
   register: {
     title: 'Register a new account',
-    success: 'Account created, you can login now!'
-  }
+    success: 'Account created, you can login now!',
+  },
 };

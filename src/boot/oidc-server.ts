@@ -1,30 +1,41 @@
 import { boot } from 'quasar/wrappers';
 import { Cookies } from 'quasar';
 import axios from 'axios';
-import { InjectionKey } from 'vue';
-import { log } from 'src/utils/console';
+import useAuthStore from 'src/stores/auth';
+import { storeToRefs } from 'pinia';
 
-export const serverTokenKey: InjectionKey<string> = Symbol('server-token-key');
-export default boot(async ({ app, ssrContext }) => {
+export default boot(async ({ store, ssrContext }) => {
   const cookies = Cookies.parseSSR(ssrContext);
   const refreshToken = cookies.get('REFRESH_TOKEN');
+
+  console.log(refreshToken);
   if (refreshToken) {
-    const url = 'https://oidc.tobiasmesquita.dev/auth/realms/quasar-rxdb-realm/protocol/openid-connect/token'
+    const url =
+      'https://oidc.tobiasmesquita.dev/auth/realms/quasar-rxdb-realm/protocol/openid-connect/token';
     const body = `client_id=quasar-rxdb-app&grant_type=refresh_token&refresh_token=${refreshToken}`;
 
-    const { data } = await axios.post<{ access_token: string, refresh_token: string }>(url, body, {
-      headers: {
-        'content-type': 'application/x-www-form-urlencoded'
-      }
-    });
+    try {
+      const { data } = await axios.post<{
+        access_token: string;
+        refresh_token: string;
+      }>(url, body, {
+        headers: {
+          'content-type': 'application/x-www-form-urlencoded',
+        },
+      });
 
-    cookies.set('REFRESH_TOKEN', data.refresh_token, {
-      path: '/',
-      httpOnly: true,
-      secure: true,
-      sameSite: 'Lax'
-    })
-    log(__dirname, ssrContext?.req?.originalUrl)
-    app.provide(serverTokenKey, data.access_token)
+      cookies.set('REFRESH_TOKEN', data.refresh_token, {
+        path: '/',
+        httpOnly: true,
+        secure: true,
+        sameSite: 'Lax',
+      });
+
+      const authStore = useAuthStore(store);
+      const authState = storeToRefs(authStore);
+      authState.token.value = data.access_token || '';
+    } catch {
+      cookies.remove('REFRESH_TOKEN');
+    }
   }
 });

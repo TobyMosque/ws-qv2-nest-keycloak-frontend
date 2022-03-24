@@ -1,5 +1,5 @@
-import { Cookies, SessionStorage, LocalStorage } from 'quasar'
-import { QSsrContext } from '@quasar/app-vite';
+import { Cookies, SessionStorage, LocalStorage } from 'quasar';
+import { QSsrContext } from '@quasar/app-webpack';
 import { Pinia, PiniaPlugin } from 'pinia';
 
 declare module 'pinia' {
@@ -11,16 +11,18 @@ declare module 'pinia' {
 }
 
 type CreatePersistPluginParams = {
-  pinia: Pinia
+  pinia: Pinia;
   ssrContext?: QSsrContext | null;
 };
 
-export default function configurePersistPlugin({ pinia, ssrContext }: CreatePersistPluginParams) {
-  
+export default function configurePersistPlugin({
+  pinia,
+  ssrContext,
+}: CreatePersistPluginParams) {
   const PersistPlugin: PiniaPlugin = ({ store, options }) => {
     if (options.persist) {
-      let state: Record<string, never> | null
-      function syncState () {
+      let state: Record<string, never> | null;
+      function syncState() {
         if (state) {
           for (const key in state) {
             store[key] = state[key];
@@ -33,26 +35,26 @@ export default function configurePersistPlugin({ pinia, ssrContext }: CreatePers
         if (process.env.SERVER) {
           return;
         }
-        const storage = options.persist
-        state = storage.getItem(name)
-        syncState()
+        const storage = options.persist;
+        state = storage.getItem(name);
+        syncState();
         store.$subscribe((_, state) => {
-          storage.set(name, state)
+          storage.set(name, state);
         });
       } else {
         // the state is being persisted in a Cookie
-        let cookie = options.persist
+        let cookie = options.persist;
         if (process.env.SERVER && 'parseSSR' in cookie) {
-          cookie = cookie.parseSSR(ssrContext)
+          cookie = cookie.parseSSR(ssrContext);
         }
-        state = cookie.get(name)
-        
-        syncState()
+        state = cookie.get(name);
+
+        syncState();
         store.$subscribe((_, state) => {
-          cookie.set(name, state as never, { path: '/' })
+          cookie.set(name, state as never, { path: '/' });
         });
       }
     }
-  }
+  };
   pinia.use(PersistPlugin);
 }

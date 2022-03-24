@@ -2,6 +2,7 @@
   "extends": "@quasar/app-vite/tsconfig-preset",
   "compilerOptions": {
     "baseUrl": ".",
+    "allowSyntheticDefaultImports": true,
     "paths": {
       "src/*": [
         "src/*"
@@ -34,10 +35,5 @@
     "src/**/*.d.ts",
     "src/**/*.tsx",
     "src/**/*.vue"
-  ],
-  "references": [
-    {
-      "path": "./tsconfig.node.json"
-    }
   ]
 }

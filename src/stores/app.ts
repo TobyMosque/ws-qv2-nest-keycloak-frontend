@@ -5,9 +5,9 @@ export const appStoreName = 'app';
 const useAppStore = defineStore(appStoreName, {
   state: () => ({
     locale: 'en-US',
-    dark: true
+    dark: true,
   }),
-  persist: Cookies
+  persist: Cookies,
 });
 
 export type AppStore = ReturnType<typeof defineStore>;

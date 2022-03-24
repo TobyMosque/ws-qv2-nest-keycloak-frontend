@@ -1,5 +1,5 @@
-import { store } from 'quasar/wrappers'
-import { createPinia } from 'pinia'
+import { store } from 'quasar/wrappers';
+import { createPinia } from 'pinia';
 import configurePersistPlugin from './plugins/persist';
 
 /*
@@ -12,10 +12,10 @@ import configurePersistPlugin from './plugins/persist';
  */
 
 export default store(({ ssrContext }) => {
-  const pinia = createPinia()
+  const pinia = createPinia();
   configurePersistPlugin({ pinia, ssrContext });
   // You can add Pinia plugins here
   // pinia.use(SomePiniaPlugin)
 
-  return pinia
-})
+  return pinia;
+});

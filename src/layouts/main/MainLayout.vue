@@ -11,13 +11,18 @@
           @click="leftDrawerOpen = !leftDrawerOpen"
         />
 
-        <q-toolbar-title>
-          Quasar App
-        </q-toolbar-title>
+        <q-toolbar-title> Quasar App </q-toolbar-title>
 
         <div>
           Quasar v{{ $q.version }}
-          <q-btn flat icon="mdi-exit-to-app" :label="$t('actions.logout')" @click="logout"></q-btn>
+          <a :href="logoutUrl">
+            <q-btn
+              flat
+              icon="mdi-exit-to-app"
+              :label="$t('actions.logout')"
+              @click.prevent="logout"
+            ></q-btn>
+          </a>
         </div>
       </q-toolbar>
     </q-header>
@@ -29,9 +34,7 @@
       content-class="bg-content"
     >
       <q-list>
-        <q-item-label header>
-          Essential Links
-        </q-item-label>
+        <q-item-label header> Essential Links </q-item-label>
         <essential-link
           v-for="link in essentialLinks"
           :key="link.title"
@@ -49,23 +52,32 @@
 
 <script lang="ts">
 import { storeToRefs } from 'pinia';
-import { defineAsyncComponent, defineComponent } from 'vue';
-import useMainLayoutStore from './main.store'
+import { computed, defineAsyncComponent, defineComponent } from 'vue';
+import useMainLayoutStore from './main.store';
 
 export default defineComponent({
   name: 'MainLayout',
   components: {
-    EssentialLink: defineAsyncComponent(() => import('components/EssentialLink.vue')),
-    LocaleSwitch: defineAsyncComponent(() => import('components/locale/LocaleSwitch.vue'))
+    EssentialLink: defineAsyncComponent(
+      () => import('components/EssentialLink.vue')
+    ),
+    LocaleSwitch: defineAsyncComponent(
+      () => import('components/locale/LocaleSwitch.vue')
+    ),
   },
   setup() {
     const store = useMainLayoutStore();
-    const state = storeToRefs(store);
+    const { logoutUrl, leftDrawerOpen } = storeToRefs(store);
 
+    const { logout } = store;
+    if (process.env.CLIENT) {
+      store.initialize();
+    }
     return {
-      ...state,
-      essentialLinks: store.essentialLinks,
-      logout: store.logout.bind(store)
+      leftDrawerOpen,
+      logoutUrl,
+      essentialLinks: computed(() => store.essentialLinks),
+      logout,
     };
   },
 });

@@ -1,12 +1,12 @@
+import { Pinia } from 'pinia';
 import { route } from 'quasar/wrappers';
 import {
   createMemoryHistory,
   createRouter,
   createWebHashHistory,
   createWebHistory,
-  Router
+  Router,
 } from 'vue-router';
-
 import routes from './routes';
 
 /*
@@ -20,13 +20,14 @@ import routes from './routes';
 
 declare module 'pinia' {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars, no-unused-vars
-  interface PiniaCustomProperties  {
-    $router: Router
-    $route: Router['currentRoute']
+  interface PiniaCustomProperties {
+    $router: Router;
+    $route: Router['currentRoute'];
   }
 }
 
 export default route(function ({ store }) {
+  const pinia = store as Pinia;
   const createHistory = process.env.SERVER
     ? createMemoryHistory
     : process.env.VUE_ROUTER_MODE === 'history'
@@ -35,17 +36,19 @@ export default route(function ({ store }) {
 
   const Router = createRouter({
     scrollBehavior: () => ({ left: 0, top: 0 }),
-    routes: routes({ store }),
+    routes: routes({ store: pinia }),
 
     // Leave this as is and make changes in quasar.conf.js instead!
     // quasar.conf.js -> build -> vueRouterMode
     // quasar.conf.js -> build -> publicPath
-    history: createHistory(process.env.VUE_ROUTER_BASE),
+    history: createHistory(
+      process.env.MODE === 'ssr' ? void 0 : process.env.VUE_ROUTER_BASE
+    ),
   });
 
-  store.use(() => ({
+  pinia.use(() => ({
     $router: Router,
-    $route: Router['currentRoute']
+    $route: Router['currentRoute'],
   }));
 
   return Router;

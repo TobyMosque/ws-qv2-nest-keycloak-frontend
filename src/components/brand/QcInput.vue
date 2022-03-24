@@ -1,5 +1,5 @@
 <template>
-  <q-input v-bind="$props" :filled="cFilled" :outlined="cOutlined" >
+  <q-input v-bind="$props" :filled="cFilled" :outlined="cOutlined">
     <template v-for="(_, slot) of $slots" v-slot:[slot]="scope">
       <slot :name="slot" v-bind="scope" />
     </template>
@@ -13,10 +13,10 @@ import useAppStore from 'src/stores/app';
 
 const BooleanUndefined = {
   type: Boolean,
-  default () {
-    return undefined
-  }
-}
+  default() {
+    return undefined;
+  },
+};
 
 export default defineComponent({
   name: 'QcInput',
@@ -24,16 +24,25 @@ export default defineComponent({
   props: {
     standard: BooleanUndefined,
     filled: BooleanUndefined,
-    outlined: BooleanUndefined
+    outlined: BooleanUndefined,
   },
-  setup (props) {
+  setup(props) {
     const appStore = useAppStore();
 
-    const hasProps = computed(() => props.standard !== undefined || props.filled !== undefined || props.outlined !== undefined);
-    const cFilled = computed(() => hasProps.value ? (props.filled ?? false) : appStore.dark);
-    const cOutlined = computed(() => hasProps.value ? (props.outlined ?? false) : !appStore.dark);
+    const hasProps = computed(
+      () =>
+        props.standard !== undefined ||
+        props.filled !== undefined ||
+        props.outlined !== undefined
+    );
+    const cFilled = computed(() =>
+      hasProps.value ? props.filled ?? false : appStore.dark
+    );
+    const cOutlined = computed(() =>
+      hasProps.value ? props.outlined ?? false : !appStore.dark
+    );
 
-    return { cFilled, cOutlined }
-  }
+    return { cFilled, cOutlined };
+  },
 });
 </script>

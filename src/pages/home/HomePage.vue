@@ -1,6 +1,6 @@
 <template>
   <q-page id="page-home" class="flex flex-center">
-    Home <br/>
+    Home <br />
     <template v-if="isDeveloper">
       <q-btn to="/devboard" color="primary" :label="$t('actions.devboard')" />
     </template>
@@ -13,12 +13,12 @@ import useHomePageStore from './home.store';
 
 export default defineComponent({
   name: 'HomePage',
-  setup () {
+  setup() {
     const store = useHomePageStore();
 
     return {
-      isDeveloper: store.isDeveloper
-    }
-  }
+      isDeveloper: store.isDeveloper,
+    };
+  },
 });
 </script>
