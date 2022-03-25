@@ -13,6 +13,9 @@ declare module 'pinia' {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars, no-unused-vars
   interface PiniaCustomProperties {
     $authApi: AuthApi;
+    $jobApi: JobApi;
+    $companyApi: CompanyApi;
+    $personApi: PersonApi;
   }
 }
 
