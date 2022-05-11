@@ -20,13 +20,14 @@ declare module 'pinia' {
 }
 
 export default boot(({ app, store }) => {
-  const baseURL = '/api';
-  const api = axios.create({ baseURL });
+  const baseURL = '';
+  const api = axios.create();
 
   api.interceptors.request.use(
     function (config: AxiosRequestConfig) {
       const authStore = useAuthStore(store);
       const token = authStore.token;
+      console.log('token ', token)
       if (token) {
         // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
         config.headers.Authorization = `bearer ${token}`;

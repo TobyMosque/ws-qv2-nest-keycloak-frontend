@@ -2,15 +2,17 @@
 // so you can safely delete all default props below
 
 export default {
-  quasar: {
-    docs: 'Documentação',
-    github: 'Github',
-    discord: 'Canal de Chat no Discord',
-    forum: 'Forum',
-    twitter: 'Twitter',
-    facebook: 'Facebook',
-    title: 'Quasar Awesome',
-    caption: 'Projetos da Comunidade com Quasar',
+  home: {
+    title: 'Inicio'
+  },
+  jobs: {
+    title: 'Empregos'
+  },
+  companies: {
+    title: 'Empresas'
+  },
+  people: {
+    title: 'Pessoas'
   },
   validations: {
     compare: '{field} e {other} não são iguais',
@@ -21,10 +23,12 @@ export default {
   fields: {
     confirmPassword: 'Confirme à Senha',
     confirmUserName: 'Confirme o Email',
-    firstName: 'Nome',
+    firstName: '@:fields.name',
     lastName: 'Sobrenome',
     password: 'Senha',
     userName: 'Email',
+    name: 'Nome',
+    updatedAt: 'Atualizado Em',
   },
   actions: {
     forget: 'Recuperar senha',
@@ -37,6 +41,9 @@ export default {
   },
   login: {
     title: 'Acessar o Sistema',
+  },
+  redirect: {
+    title: 'Redirecionando após o Login',
   },
   http: {
     generic: 'Algo de errado aconteceu',

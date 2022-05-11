@@ -8,7 +8,7 @@ export default boot(async ({ store, ssrContext }) => {
   const cookies = Cookies.parseSSR(ssrContext);
   const refreshToken = cookies.get('REFRESH_TOKEN');
 
-  console.log(refreshToken);
+  console.log('refresh: ', refreshToken);
   if (refreshToken) {
     const url =
       'https://oidc.tobiasmesquita.dev/auth/realms/quasar-rxdb-realm/protocol/openid-connect/token';
@@ -34,6 +34,7 @@ export default boot(async ({ store, ssrContext }) => {
       const authStore = useAuthStore(store);
       const authState = storeToRefs(authStore);
       authState.token.value = data.access_token || '';
+      console.log('token: ', authState.token.value)
     } catch {
       cookies.remove('REFRESH_TOKEN');
     }

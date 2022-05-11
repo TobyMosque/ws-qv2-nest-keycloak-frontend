@@ -1,11 +1,8 @@
 import { Pinia } from 'pinia';
 import useAuthStore from 'src/stores/auth';
-import { discard } from 'src/utils/console';
 import { NavigationGuard, RouteRecordRaw, RouterView } from 'vue-router';
 
 export default function ({ store }: { store: Pinia }) {
-  discard(store);
-
   const beforeEnter: NavigationGuard = (to, from, next) => {
     const authStore = useAuthStore(store);
     const logged = authStore.isLogged();
@@ -35,6 +32,11 @@ export default function ({ store }: { store: Pinia }) {
               component: () => import('pages/auth/AuthPage.vue'),
             },
             {
+              name: 'redirect',
+              path: 'redirect',
+              component: () => import('pages/redirect/RedirectPage.vue'),
+            },
+            {
               name: 'login',
               path: 'login',
               component: () => import('pages/login/LoginPage.vue'),
@@ -49,11 +51,19 @@ export default function ({ store }: { store: Pinia }) {
         {
           path: '',
           component: () => import('layouts/main/MainLayout.vue'),
+          meta: {
+            authorize: true
+          },
           children: [
             {
               name: 'home',
               path: 'home',
               component: () => import('pages/home/HomePage.vue'),
+            },
+            {
+              name: 'jobs',
+              path: 'jobs',
+              component: () => import('src/pages/job/list/JobsListPage.vue'),
             },
           ],
         },

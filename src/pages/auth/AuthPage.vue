@@ -4,22 +4,20 @@
     <q-separator></q-separator>
     <q-form ref="form" class="row q-col-gutter-sm">
       <div class="col col-5">
-        <a v-bind:href="registerUrl">
-          <q-btn
-            class="full-width"
-            color="secondary"
-            :label="$t('actions.createAccount')"
-          ></q-btn>
-        </a>
+        <q-btn
+          class="full-width"
+          color="secondary"
+          :href="registerUrl"
+          :label="$t('actions.createAccount')"
+        ></q-btn>
       </div>
       <div class="col col-7">
-        <a v-bind:href="loginUrl">
-          <q-btn
-            class="full-width"
-            color="positive"
-            :label="$t('actions.login')"
-          ></q-btn>
-        </a>
+        <q-btn
+          class="full-width"
+          color="positive"
+          :href="loginUrl"
+          :label="$t('actions.login')"
+        ></q-btn>
       </div>
     </q-form>
   </div>

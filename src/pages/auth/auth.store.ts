@@ -10,11 +10,15 @@ const useLoginPageStore = defineStore(loginPageStoreName, {
   }),
   actions: {
     oidcUrls(locale: string) {
+      const route = this.$router.resolve('/redirect')
+      const redirectUri = new URL(route.href, window.location.href).href
       this.loginUrl = this.$oidc.createLoginUrl({
         locale,
+        redirectUri
       });
       this.registerUrl = this.$oidc.createRegisterUrl({
         locale,
+        redirectUri
       });
     },
     initialize () {

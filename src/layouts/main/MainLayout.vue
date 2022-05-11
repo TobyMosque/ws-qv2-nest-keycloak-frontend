@@ -1,5 +1,5 @@
 <template>
-  <q-layout id="layout-main" view="lHh Lpr lFf" class="bg-main">
+  <q-layout id="layout-main" view="hHh LpR fFf" class="bg-main">
     <q-header elevated>
       <q-toolbar>
         <q-btn
@@ -15,14 +15,13 @@
 
         <div>
           Quasar v{{ $q.version }}
-          <a :href="logoutUrl">
-            <q-btn
-              flat
-              icon="mdi-exit-to-app"
-              :label="$t('actions.logout')"
-              @click.prevent="logout"
-            ></q-btn>
-          </a>
+          <q-btn
+            flat
+            icon="mdi-exit-to-app"
+            :label="$t('actions.logout')"
+            :href="logoutUrl"
+            @click.prevent="logout"
+          ></q-btn>
         </div>
       </q-toolbar>
     </q-header>

@@ -7,7 +7,7 @@
 
 // Configuration for your app
 // https://v2.quasar.dev/quasar-cli-vite/quasar-config-js
-
+const { esbuildCommonjs, viteCommonjs } = require('@originjs/vite-plugin-commonjs');
 
 const { configure } = require('quasar/wrappers');
 const path = require('path');
@@ -43,7 +43,7 @@ module.exports = configure(function (/* ctx */) {
     // https://github.com/quasarframework/quasar/tree/dev/extras
     extras: [
       // 'ionicons-v4',
-      // 'mdi-v5',
+      'mdi-v5',
       // 'fontawesome-v6',
       // 'eva-icons',
       // 'themify',
@@ -78,8 +78,20 @@ module.exports = configure(function (/* ctx */) {
       // distDir
 
       // extendViteConf (viteConf) {},
+      extendViteConf (viteConf) {
+        if (!viteConf.optimizeDeps.include) {
+          viteConf.optimizeDeps.include = []
+        }
+        viteConf.optimizeDeps.include.push('api')
+        if (!viteConf.build.commonjsOptions) {
+          viteConf.build.commonjsOptions = {}
+        }
+        if (!viteConf.build.commonjsOptions.include) {
+          viteConf.build.commonjsOptions.include = []
+        }
+        viteConf.build.commonjsOptions.include.push(/api/)
+      },
       // viteVuePluginOptions: {},
-      transpileDependencies: [/api/],
       vitePlugins: [
         ['@intlify/vite-plugin-vue-i18n', {
           // if you want to use Vue I18n Legacy API, you need to set `compositionOnly: false`

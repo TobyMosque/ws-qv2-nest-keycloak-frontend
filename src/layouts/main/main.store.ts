@@ -1,13 +1,11 @@
 import { defineStore, Pinia, storeToRefs } from 'pinia';
-import useAppStore from 'src/stores/app';
 import { error } from 'src/utils/console';
-import { watch } from 'vue';
 
 interface EssentiaLink {
   title: string;
-  caption: string;
+  caption?: string;
   icon: string;
-  link: string;
+  to: string;
 }
 
 export const mainLayoutStoreName = 'mainLayout';
@@ -22,27 +20,22 @@ const useMainLayoutStore = defineStore(mainLayoutStoreName, {
     },
     async logout() {
       try {
-        await this.$authApi.authControllerLogout();
+        await this.$authApi.logout();
       } catch (err) {
         error(err);
       }
       window.location.href = this.logoutUrl;
     },
-    oidcUrls(locale: string) {
+    oidcUrls() {
       const route = this.$router.resolve('/auth');
+      const redirectUri = new URL(route.href, window.location.origin).href
       this.logoutUrl = this.$oidc.createLogoutUrl({
-        redirectUri: new URL(route.href, window.location.origin).href
+        redirectUri
       });
     },
     initialize () {
-      const appStore = useAppStore();
-      watch(
-        () => appStore.locale,
-        () => {
-          this.oidcUrls(appStore.locale);
-        });
       requestAnimationFrame(() => {
-        this.oidcUrls(appStore.locale);
+        this.oidcUrls();
       });
     }
   },
@@ -50,47 +43,25 @@ const useMainLayoutStore = defineStore(mainLayoutStoreName, {
     essentialLinks(): EssentiaLink[] {
       return [
         {
-          title: this.$t('quasar.docs'),
-          caption: 'quasar.dev',
+          title: this.$t('home.title'),
           icon: 'school',
-          link: 'https://quasar.dev',
+          to: this.$router.resolve('/home').fullPath,
         },
         {
-          title: this.$t('quasar.github'),
-          caption: 'github.com/quasarframework',
+          title: this.$t('jobs.title'),
           icon: 'code',
-          link: 'https://github.com/quasarframework',
+          to: this.$router.resolve('/jobs').fullPath,
         },
         {
-          title: this.$t('quasar.discord'),
-          caption: 'chat.quasar.dev',
+          title: this.$t('companies.title'),
           icon: 'chat',
-          link: 'https://chat.quasar.dev',
+          to: this.$router.resolve('/companies').fullPath,
         },
         {
-          title: this.$t('quasar.forum'),
-          caption: 'forum.quasar.dev',
+          title: this.$t('people.title'),
           icon: 'record_voice_over',
-          link: 'https://forum.quasar.dev',
-        },
-        {
-          title: this.$t('quasar.twitter'),
-          caption: '@quasarframework',
-          icon: 'rss_feed',
-          link: 'https://twitter.quasar.dev',
-        },
-        {
-          title: this.$t('quasar.facebook'),
-          caption: '@QuasarFramework',
-          icon: 'public',
-          link: 'https://facebook.quasar.dev',
-        },
-        {
-          title: this.$t('quasar.title'),
-          caption: this.$t('quasar.caption'),
-          icon: 'favorite',
-          link: 'https://awesome.quasar.dev',
-        },
+          to: this.$router.resolve('/people').fullPath,
+        }
       ];
     },
   },

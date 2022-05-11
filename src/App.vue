@@ -2,13 +2,10 @@
   <router-view />
 </template>
 <script lang="ts">
-import { defineComponent, watch, inject } from 'vue';
+import { defineComponent, watch } from 'vue';
 import { useQuasar } from 'quasar';
-import useAuthStore from './stores/auth';
 import useAppStore from './stores/app';
 import { storeToRefs } from 'pinia';
-import { discard, log } from './utils/console';
-import { serverTokenKey } from 'src/boot/oidc-server';
 
 export default defineComponent({
   name: 'App',

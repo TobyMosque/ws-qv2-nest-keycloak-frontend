@@ -1,4 +1,4 @@
-import { Pinia } from 'pinia';
+import useAuthStore from 'src/stores/auth';
 import { route } from 'quasar/wrappers';
 import {
   createMemoryHistory,
@@ -27,7 +27,6 @@ declare module 'pinia' {
 }
 
 export default route(function ({ store }) {
-  const pinia = store as Pinia;
   const createHistory = process.env.SERVER
     ? createMemoryHistory
     : process.env.VUE_ROUTER_MODE === 'history'
@@ -36,7 +35,7 @@ export default route(function ({ store }) {
 
   const Router = createRouter({
     scrollBehavior: () => ({ left: 0, top: 0 }),
-    routes: routes({ store: pinia }),
+    routes: routes({ store }),
 
     // Leave this as is and make changes in quasar.conf.js instead!
     // quasar.conf.js -> build -> vueRouterMode
@@ -46,10 +45,22 @@ export default route(function ({ store }) {
     ),
   });
 
-  pinia.use(() => ({
+  store.use(() => ({
     $router: Router,
     $route: Router['currentRoute'],
   }));
+
+  Router.beforeEach((to, from, next) => {
+    const protectedRoutes = to.matched.filter(route => route.meta.authorize);
+    if (protectedRoutes.length > 0) {
+      const authStore = useAuthStore(store);
+      const logged = authStore.isLogged();
+      if (!logged) {
+        return next('/auth');
+      }
+    }
+    next();
+  })
 
   return Router;
 });

@@ -48,12 +48,19 @@ export default defineComponent({
 
     const icon = computed(() => `img:flags/${appState.locale.value}.svg`);
 
-    async function set(locale: string) {
+    async function set(locale: ('pt-BR' | 'en-US')) {
       appState.locale.value = locale;
       i18n.locale.value = locale;
 
-      const lang = (await import(`quasar/lang/${locale}`)) as never;
-      quasar.lang.set(lang);
+      function getLang () {
+        switch (locale) {
+          case 'pt-BR': return import('quasar/lang/pt-BR');
+          case 'en-US': return import('quasar/lang/en-US');
+        }
+      }
+      
+      const lang = await getLang();
+      quasar.lang.set(lang as never);
     }
     return {
       fab,

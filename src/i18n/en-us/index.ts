@@ -2,15 +2,17 @@
 // so you can safely delete all default props below
 
 export default {
-  quasar: {
-    docs: 'Docs',
-    github: 'Github',
-    discord: 'Discord Chat Channel',
-    forum: 'Forum',
-    twitter: 'Twitter',
-    facebook: 'Facebook',
-    title: 'Quasar Awesome',
-    caption: 'Community Quasar projects',
+  home: {
+    title: 'Home'
+  },
+  jobs: {
+    title: 'Jobs'
+  },
+  companies: {
+    title: 'Companies'
+  },
+  people: {
+    title: 'People'
   },
   validations: {
     compare: '{field} and {other} do not match',
@@ -25,6 +27,8 @@ export default {
     lastName: 'Last Name',
     password: 'Password',
     username: 'Email',
+    name: 'Name',
+    updatedAt: 'Updated At'
   },
   actions: {
     forget: 'Recovery password',
@@ -37,6 +41,9 @@ export default {
   },
   login: {
     title: 'Login into the System',
+  },
+  redirect: {
+    title: 'Redirecting after Login',
   },
   http: {
     generic: 'Something not right happened',
